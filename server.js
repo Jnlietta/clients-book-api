@@ -22,6 +22,13 @@ app.get('/testimonials/:id', (req, res) => {//dziala
     res.json(client);
   });
 
+app.get('/testimonials/random', (req, res) => {
+    const randomIndex = Math.floor(Math.random() * db.length);
+    const randomClient = db[randomIndex];
+
+    res.json(randomClient);
+});
+
 app.listen(8000, () => {
   console.log('Server is running on port: 8000');
 });
