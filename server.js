@@ -10,6 +10,18 @@ const db = [
     { id: 2, author: 'Amanda Doe', text: 'They really know how to make you happy.' },
   ];
 
+app.get('/testimonials', (req, res) => {//dziala
+  res.json(db);
+});
+
+app.get('/testimonials/:id', (req, res) => {//dziala
+
+    const id = parseInt(req.params.id);    
+    const client = db.find(client => client.id === id);
+
+    res.json(client);
+  });
+
 app.listen(8000, () => {
   console.log('Server is running on port: 8000');
 });
