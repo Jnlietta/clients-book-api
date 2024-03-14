@@ -15,18 +15,20 @@ app.get('/testimonials', (req, res) => {
 });
 
 app.get('/testimonials/:id', (req, res) => {
-    const id = parseInt(req.params.id);    
-    const client = db.find(client => client.id === id);
+    const id = req.params.id;
 
-    res.json(client);
+    if(id === 'random'){
+        const randomIndex = Math.floor(Math.random() * db.length);
+        const randomClient = db[randomIndex];
+    
+        res.json(randomClient);
+    } else {
+        const idNumber = parseInt(req.params.id);    
+        const client = db.find(client => client.id === idNumber);
+    
+        res.json(client);
+    }
   });
-
-app.get('/testimonials/random', (req, res) => {
-    const randomIndex = Math.floor(Math.random() * db.length);
-    const randomClient = db[randomIndex];
-
-    res.json(randomClient);
-});
 
 app.post('/testimonials', (req, res) => {
     const { author, text } = req.body;
