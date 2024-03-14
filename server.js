@@ -38,6 +38,16 @@ app.post('/testimonials', (req, res) => {
     res.json(db);
 });
 
+app.put('/testimonials/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const { author, text } = req.body;
+    const client = db.find(client => client.id === id);
+    client.author = author;
+    client.text = text;
+
+    res.json(db);
+});
+
 app.listen(8000, () => {
   console.log('Server is running on port: 8000');
 });
