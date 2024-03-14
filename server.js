@@ -29,6 +29,15 @@ app.get('/testimonials/random', (req, res) => {
     res.json(randomClient);
 });
 
+app.post('/testimonials', (req, res) => {
+    const { author, text } = req.body;
+    const nextId = db.length + 1;
+    const newClient = { id: nextId, author: author, text: text};
+    db.push(newClient);
+
+    res.json(db);
+});
+
 app.listen(8000, () => {
   console.log('Server is running on port: 8000');
 });
