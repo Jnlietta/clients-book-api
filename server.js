@@ -10,12 +10,11 @@ const db = [
     { id: 2, author: 'Amanda Doe', text: 'They really know how to make you happy.' },
   ];
 
-app.get('/testimonials', (req, res) => {//dziala
+app.get('/testimonials', (req, res) => {
   res.json(db);
 });
 
-app.get('/testimonials/:id', (req, res) => {//dziala
-
+app.get('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id);    
     const client = db.find(client => client.id === id);
 
