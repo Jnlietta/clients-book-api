@@ -15,6 +15,10 @@ app.use('/api', testimonialsRoutes); // add testimonials routes to server
 app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+});
+
 app.use((req, res) => {
     const failure = { message: 'Not found...' };
 
