@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Progress, Alert } from 'reactstrap';
 import { getSeats, loadSeatsRequest, getRequests } from '../../../redux/seatsRedux';
@@ -8,10 +8,23 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   const dispatch = useDispatch();
   const seats = useSelector(getSeats);
   const requests = useSelector(getRequests);
-  
+  const [timer, setTimer] = useState(null);
+
   useEffect(() => {
     dispatch(loadSeatsRequest());
+    startTimer();
+    return () => { //przy usuwaniu komponentu
+      if(timer) clearInterval(timer);
+    };
   }, [dispatch])
+
+  const startTimer = () => {
+    if (timer) clearInterval(timer);
+
+    setTimer(setInterval(() => {
+      dispatch(loadSeatsRequest());
+    }, 120000));
+  };
 
   const isTaken = (seatId) => {
     return (seats.some(item => (item.seat === seatId && item.day === chosenDay)));
