@@ -34,8 +34,9 @@ app.post('/testimonials', (req, res) => {
     const nextId = uuidv4();
     const newClient = { id: nextId, author: author, text: text};
     db.push(newClient);
+    const succes = { message: 'OK' }
 
-    res.json(db);
+    res.json(succes);
 });
 
 app.put('/testimonials/:id', (req, res) => {
@@ -44,8 +45,9 @@ app.put('/testimonials/:id', (req, res) => {
     const client = db.find(client => client.id === id);
     client.author = author;
     client.text = text;
+    const succes = { message: 'OK' }
 
-    res.json(db);
+    res.json(succes);
 });
 
 app.delete('/testimonials/:id', (req, res) => {
@@ -53,8 +55,9 @@ app.delete('/testimonials/:id', (req, res) => {
     const client = db.find(client => client.id === id);
     const indexOfClient = db.indexOf(client);
     db.splice(indexOfClient, 1);
+    const succes = { message: 'OK' }
 
-    res.json(db);
+    res.json(succes);
 });
 
 app.listen(8000, () => {
