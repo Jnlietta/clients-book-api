@@ -21,10 +21,18 @@ router.route('/seats').post((req, res) => {
     const { day, seat, client, email } = req.body;
     const nextId = uuidv4();
     const newSeat = { id: nextId, day: day, seat: seat, client: client, email: email };
+    const seatIsTaken = db.seats.some((x) => x.day === newSeat.day && x.seat === newSeat.seat);
+
+    if(!seatIsTaken){
     db.seats.push(newSeat);
     const succes = { message: 'OK' }
   
     res.json(succes);
+    } else {
+        const failure = { message: 'The slot is already taken...' }
+  
+        res.status(400).json(failure);
+    }
 });
 
 // make changes in seats data
