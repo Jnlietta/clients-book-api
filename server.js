@@ -1,30 +1,26 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
+const db = require('./db');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const db = [
-    { id: 1, author: 'John Doe', text: 'This company is worth every coin!' },
-    { id: 2, author: 'Amanda Doe', text: 'They really know how to make you happy.' },
-  ];
-
 app.get('/testimonials', (req, res) => {
-  res.json(db);
+  res.json(db.testimonials);
 });
 
 app.get('/testimonials/random', (req, res) => {
-    const randomIndex = Math.floor(Math.random() * db.length);
-    const randomClient = db[randomIndex];
+    const randomIndex = Math.floor(Math.random() * db.testimonials.length);
+    const randomClient = db.testimonials[randomIndex];
 
     res.json(randomClient);
 });
 
 app.get('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id);    
-    const client = db.find(client => client.id === id);
+    const client = db.testimonials.find(client => client.id === id);
 
     res.json(client);
   });
@@ -33,7 +29,7 @@ app.post('/testimonials', (req, res) => {
     const { author, text } = req.body;
     const nextId = uuidv4();
     const newClient = { id: nextId, author: author, text: text};
-    db.push(newClient);
+    db.testimonials.push(newClient);
     const succes = { message: 'OK' }
 
     res.json(succes);
@@ -42,7 +38,7 @@ app.post('/testimonials', (req, res) => {
 app.put('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const { author, text } = req.body;
-    const client = db.find(client => client.id === id);
+    const client = db.testimonials.find(client => client.id === id);
     client.author = author;
     client.text = text;
     const succes = { message: 'OK' }
@@ -52,9 +48,9 @@ app.put('/testimonials/:id', (req, res) => {
 
 app.delete('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id);
-    const client = db.find(client => client.id === id);
-    const indexOfClient = db.indexOf(client);
-    db.splice(indexOfClient, 1);
+    const client = db.testimonials.find(client => client.id === id);
+    const indexOfClient = db.testimonials.indexOf(client);
+    db.testimonials.splice(indexOfClient, 1);
     const succes = { message: 'OK' }
 
     res.json(succes);
