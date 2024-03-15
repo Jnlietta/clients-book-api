@@ -18,9 +18,9 @@ router.route('/seats/:id').get((req, res) => {
   
 // add seat
 router.route('/seats').post((req, res) => {
-    const { author, text } = req.body;
+    const { day, seat, client, email } = req.body;
     const nextId = uuidv4();
-    const newSeat = { id: nextId, author: author, text: text};
+    const newSeat = { id: nextId, day: day, seat: seat, client: client, email: email };
     db.seats.push(newSeat);
     const succes = { message: 'OK' }
   
@@ -30,10 +30,12 @@ router.route('/seats').post((req, res) => {
 // make changes in seats data
 router.route('/seats/:id').put((req, res) => {
     const id = parseInt(req.params.id);
-    const { author, text } = req.body;
-    const seat = db.seats.find(seat => seat.id === id);
-    seat.author = author;
-    seat.text = text;
+    const { day, seat, client, email } = req.body;
+    const seatById = db.seats.find(seat => seat.id === id);
+    seatById.day = day;
+    seatById.seat = seat;
+    seatById.client = client;
+    seatById.email = email;
     const succes = { message: 'OK' }
   
     res.json(succes);

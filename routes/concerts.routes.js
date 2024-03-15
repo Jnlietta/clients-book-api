@@ -18,9 +18,9 @@ router.route('/concerts/:id').get((req, res) => {
   
 // add concert
 router.route('/concerts').post((req, res) => {
-    const { author, text } = req.body;
+    const { performer, genre, price, day, image  } = req.body;
     const nextId = uuidv4();
-    const newConcert = { id: nextId, author: author, text: text};
+    const newConcert = { id: nextId, performer: performer, genre: genre, price: price, day: day, image: image };
     db.concerts.push(newConcert);
     const succes = { message: 'OK' }
   
@@ -30,10 +30,13 @@ router.route('/concerts').post((req, res) => {
 // make changes in concerts data
 router.route('/concerts/:id').put((req, res) => {
     const id = parseInt(req.params.id);
-    const { author, text } = req.body;
+    const { performer, genre, price, day, image } = req.body;
     const concert = db.concerts.find(concert => concert.id === id);
-    concert.author = author;
-    concert.text = text;
+    concert.performer = performer;
+    concert.genre = genre;
+    concert.price = price;
+    concert.day = day;
+    concert.image = image;
     const succes = { message: 'OK' }
   
     res.json(succes);
