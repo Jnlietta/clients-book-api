@@ -1,4 +1,5 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
@@ -30,7 +31,7 @@ app.get('/testimonials/:id', (req, res) => {
 
 app.post('/testimonials', (req, res) => {
     const { author, text } = req.body;
-    const nextId = db.length + 1;
+    const nextId = uuidv4();
     const newClient = { id: nextId, author: author, text: text};
     db.push(newClient);
 
