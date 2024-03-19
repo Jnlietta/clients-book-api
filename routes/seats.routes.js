@@ -28,9 +28,10 @@ router.route('/seats').post((req, res) => {
     const succes = { message: 'OK' }
   
     res.json(succes);
-    
-    //emit to other users ubdate of seats available 
-    res.io.broadcast.emit('seatsUpdated', db.seats);
+
+    //emit to other users ubdate of available seats  
+    req.io.emit('seatsUpdated', db.seats);
+    console.log()
     } else {
         const failure = { message: 'The slot is already taken...' }
   
