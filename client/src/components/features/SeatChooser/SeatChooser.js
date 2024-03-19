@@ -11,8 +11,12 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   const seats = useSelector(getSeats);
   const requests = useSelector(getRequests);
   const [timer, setTimer] = useState(null);
+  const [socket, setSocket] = useState();
 
   useEffect(() => {
+    const socket = io(process.env.NODE_ENV === 'production' ? '' : 'ws://localhost:8000', { transports: ['websocket'] });
+    setSocket(socket);
+
     dispatch(loadSeatsRequest());
     startTimer();
     return () => { //przy usuwaniu komponentu
