@@ -1,67 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./../db');
-const { v4: uuidv4 } = require('uuid');
+
+const SeatController = require('../controllers/seats.controller');
 
 // get all seats
-router.route('/seats').get((req, res) => {
-  res.json(db.seats);
-});
- 
+router.get('/seats', SeatController.getAll);
+
 // get seat by id
-router.route('/seats/:id').get((req, res) => {
-    const id = parseInt(req.params.id);    
-    const seat = db.seats.find(seat => seat.id === id);
-  
-    res.json(seat);
-});
-  
+router.get('/seats/:id', SeatController.getById);
+
 // add seat
-router.route('/seats').post((req, res) => {
-    const { day, seat, client, email } = req.body;
-    const nextId = uuidv4();
-    const newSeat = { id: nextId, day: day, seat: seat, client: client, email: email };
-    const seatIsTaken = db.seats.some((x) => x.day === newSeat.day && x.seat === newSeat.seat);
-
-    if(!seatIsTaken){
-    db.seats.push(newSeat);
-    const succes = { message: 'OK' }
-  
-    res.json(succes);
-
-    //emit to other users ubdate of available seats  
-    req.io.emit('seatsUpdated', db.seats);
-    console.log()
-    } else {
-        const failure = { message: 'The slot is already taken...' }
-  
-        res.status(400).json(failure);
-    }
-});
+router.post('/seats', SeatController.postNew);
 
 // make changes in seats data
-router.route('/seats/:id').put((req, res) => {
-    const id = parseInt(req.params.id);
-    const { day, seat, client, email } = req.body;
-    const seatById = db.seats.find(seat => seat.id === id);
-    seatById.day = day;
-    seatById.seat = seat;
-    seatById.client = client;
-    seatById.email = email;
-    const succes = { message: 'OK' }
-  
-    res.json(succes);
-});
-  
+router.put('/seats/:id', SeatController.putById);
+
 // delete seat
-router.route('/seats/:id').delete((req, res) => {
-    const id = parseInt(req.params.id);
-    const seat = db.seats.find(seat => seat.id === id);
-    const indexOfSeat = db.seats.indexOf(seat);
-    db.seats.splice(indexOfSeat, 1);
-    const succes = { message: 'OK' }
-  
-    res.json(succes);
-});
+router.delete('/seats/:id', SeatController.deleteById);
 
 module.exports = router;
