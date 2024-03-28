@@ -29,14 +29,17 @@ exports.postNew = async (req, res) => {
         client: client, 
         email: email 
       });
-      await newSeat.save();
-      const seatIsTaken = await Seat.find( $and [{ day: day }, { seat: seat }]);
-
-      if(!seatIsTaken){
+      console.log("new seat:",newSeat);
+      
+      const seatIsTaken = await Seat.find({ $and: [{ day: day }, { seat: seat }] });
+      console.log("taken:",seatIsTaken);
+      
+      if(!seatIsTaken.length){
+        await newSeat.save();
         res.json({ message: 'OK' });
 
         //emit to other users ubdate of available seats  
-        req.io.emit('seatsUpdated', db.seats);
+        req.io.emit('seatsUpdated', await Seat.find());
       } else {
         const failure = { message: 'The slot is already taken...' }
         res.status(400).json(failure);
