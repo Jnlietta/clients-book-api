@@ -70,7 +70,7 @@ const OrderTicketForm = () => {
           </FormGroup>
           <FormGroup>
             <Label for="clientDay">Select which day of festivals are you interested in:</Label>
-            <Input type="select" value={order.day} name="day" onChange={updateNumberField} id="exampleSelect">
+            <Input type="select" value={order.day} name="day" onChange={updateNumberField} id="clientDay">
               <option>1</option>
               <option>2</option>
               <option>3</option>
