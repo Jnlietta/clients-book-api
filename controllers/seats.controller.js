@@ -1,4 +1,4 @@
-const Seat = require('../models/Seat.model');
+const Seat = require('../models/seat.model');
 
 exports.getAll = async (req, res) => {
     try {
@@ -33,7 +33,7 @@ exports.postNew = async (req, res) => {
       
       const seatIsTaken = await Seat.find({ $and: [{ day: day }, { seat: seat }] });
       console.log("taken:",seatIsTaken);
-      
+
       if(!seatIsTaken.length){
         await newSeat.save();
         res.json({ message: 'OK' });
