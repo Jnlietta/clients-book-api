@@ -35,7 +35,14 @@ app.use((req, res) => {
 });
 
 // connects our backend code with the database
-mongoose.connect('mongodb+srv://juliawglinka:VIrMkgSY0xozZoXp@cluster0.ejrpgdi.mongodb.net/NewWaveDB?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true });
+const NODE_ENV = process.env.NODE_ENV;
+let dbUri = '';
+
+if(NODE_ENV === 'production') dbUri = 'mongodb+srv://juliawglinka:VIrMkgSY0xozZoXp@cluster0.ejrpgdi.mongodb.net/NewWaveDB?retryWrites=true&w=majority&appName=Cluster0';
+else if(NODE_ENV === 'test') dbUri = 'mongodb://0.0.0.0:27017/NewWaveDBtest';
+else dbUri = 'mongodb://0.0.0.0:27017/NewWaveDB';
+
+mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
@@ -52,3 +59,5 @@ const io = socket(server);
 io.on('connection', (socket) => {
   console.log('New socket!');
 });
+
+module.exports = server;

@@ -15,7 +15,8 @@ describe('GET /api/concerts', () => {
             performer: "John Doe",
             genre: "Rock",
             price: 25,
-            day: 1 
+            day: 1,
+            image: 'image_1'
         });
         await testConOne.save();
 
@@ -24,7 +25,8 @@ describe('GET /api/concerts', () => {
             performer: "Amanda Goe",
             genre: "R&B",
             price: 15,
-            day: 1 
+            day: 1,
+            image: 'image_2'
         });
         await testConTwo.save();
 
@@ -33,7 +35,8 @@ describe('GET /api/concerts', () => {
             performer: "Arnold Jay",
             genre: "Pop",
             price: 40,
-            day: 2 
+            day: 2,
+            image: 'image_3'
         });
         await testConThree.save();
     });
