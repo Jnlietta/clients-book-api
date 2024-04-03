@@ -35,7 +35,7 @@ describe('GET /api/concerts', () => {
             performer: "Arnold Jay",
             genre: "Pop",
             price: 40,
-            day: 2,
+            day: 1,
             image: 'image_3'
         });
         await testConThree.save();
@@ -53,6 +53,34 @@ describe('GET /api/concerts', () => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.not.be.null;
+    });
+
+    it('/performer/:performer should return all concerts by :performer ', async () => {
+        const res = await request(server).get('/api/concerts/performer/John Doe');
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.be.equal(1);
+    });
+
+    it('/genre/:genre should return all concerts by :genre ', async () => {
+        const res = await request(server).get('/api/concerts/genre/Pop');
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.be.equal(1);
+    });
+
+    it('/price/:price should return all concerts by :price ', async () => {
+        const res = await request(server).get('/api/concerts/price/10/25');
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.be.equal(2);
+    });
+
+    it('/day/:day should return all concerts by :day ', async () => {
+        const res = await request(server).get('/api/concerts/day/1');
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.be.equal(3);
     });
           
     after(async () => {
