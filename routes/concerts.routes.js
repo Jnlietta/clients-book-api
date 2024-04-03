@@ -16,7 +16,7 @@ router.get('/concerts/performer/:performer', ConcertController.getByPerformer);
 router.get('/concerts/genre/:genre', ConcertController.getByGenre);
 
 // get all concerts with price between params price_min and price_max
-router.get('/concerts/price/:price_min/price_max', ConcertController.getByPrice);
+router.get('/concerts/price/:price_min/:price_max', ConcertController.getByPrice);
 
 // get all concerts with the same day
 router.get('/concerts/day/:day', ConcertController.getByDay);
