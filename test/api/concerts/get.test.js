@@ -13,7 +13,7 @@ describe('GET /api/concerts', () => {
         const testConOne = new Concert({ 
             _id: '5d9f1140f10a81216cfd4408',
             performer: "John Doe",
-            genre: "Rock",
+            genre: "Pop",
             price: 25,
             day: 1,
             image: 'image_1'
@@ -60,13 +60,23 @@ describe('GET /api/concerts', () => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
         expect(res.body.length).to.be.equal(1);
+
+        const resTwo = await request(server).get('/api/concerts/performer/Arnold Jay');
+        expect(resTwo.status).to.be.equal(200);
+        expect(resTwo.body).to.be.an('array');
+        expect(resTwo.body.length).to.be.equal(1);
     });
 
     it('/genre/:genre should return all concerts by :genre ', async () => {
         const res = await request(server).get('/api/concerts/genre/Pop');
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
-        expect(res.body.length).to.be.equal(1);
+        expect(res.body.length).to.be.equal(2);
+
+        const resTwo = await request(server).get('/api/concerts/genre/R&B');
+        expect(resTwo.status).to.be.equal(200);
+        expect(resTwo.body).to.be.an('array');
+        expect(resTwo.body.length).to.be.equal(1);
     });
 
     it('/price/:price should return all concerts by :price ', async () => {
@@ -74,6 +84,11 @@ describe('GET /api/concerts', () => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
         expect(res.body.length).to.be.equal(2);
+
+        const resTwo = await request(server).get('/api/concerts/price/10/45');
+        expect(resTwo.status).to.be.equal(200);
+        expect(resTwo.body).to.be.an('array');
+        expect(resTwo.body.length).to.be.equal(3);
     });
 
     it('/day/:day should return all concerts by :day ', async () => {
@@ -81,7 +96,13 @@ describe('GET /api/concerts', () => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
         expect(res.body.length).to.be.equal(3);
+
+        const resTwo = await request(server).get('/api/concerts/day/2');
+        expect(resTwo.status).to.be.equal(404);
+        expect(resTwo.body).to.be.an('object');
+        expect(resTwo.body.message).to.be.equal('Not found');     
     });
+
           
     after(async () => {
         await Concert.deleteMany();
