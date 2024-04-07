@@ -3,6 +3,7 @@ var cors = require('cors')
 const path = require('path');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 const app = express();
 
@@ -11,6 +12,7 @@ const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
 
+app.use(helmet());
 app.use(cors());
 // Serve static files from the React app
 app.use((req, res, next) => {
